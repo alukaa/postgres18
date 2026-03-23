@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # 使用最新稳定版本 1.2（兼容 PostgreSQL 18）
-RUN wget -O /tmp/pg_bigm-1.2.tar.gz https://github.com/pgbigm/pg_bigm/archive/refs/tags/v1.2-20250903.tar.gz \
+RUN wget -O /tmp/pg_bigm-1.2.tar.gz https://github.com/pgbigm/pg_bigm/archive/refs/tags/v1.2-20250903.tar.gz --no-check-certificate \
     && cd /tmp \
     && tar xzf pg_bigm-1.2.tar.gz \
     && cd pg_bigm-1.2 \
