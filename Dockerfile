@@ -1,21 +1,16 @@
 FROM postgres:18
 
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# 安装依赖
+RUN apt-get update && apt-get install -y \
     build-essential \
-    postgresql-server-dev-18 \
-    make \
-    gcc \
-    wget \
-    tar \
-    && rm -rf /var/lib/apt/lists/*
+    git \
+    postgresql-server-dev-18
 
-# 使用最新稳定版本 1.2（兼容 PostgreSQL 18）
-RUN wget -O /tmp/pg_bigm-1.2.tar.gz https://github.com/pgbigm/pg_bigm/archive/refs/tags/v1.2-20250903.tar.gz --no-check-certificate \
-    && cd /tmp \
-    && tar xzf pg_bigm-1.2.tar.gz \
-    && cd pg_bigm-1.2 \
-    && make USE_PGXS=1 \
-    && make USE_PGXS=1 install \
-    && cd / \
-    && rm -rf /tmp/pg_bigm-1.2*
+# 下载并编译 pg_bigm
+RUN git clone https://github.com/pgbigm/pg_bigm.git /tmp/pg_bigm \
+    && cd /tmp/pg_bigm \
+    && make \
+    && make install
+
+# 清理
+RUN rm -rf /tmp/pg_bigm
